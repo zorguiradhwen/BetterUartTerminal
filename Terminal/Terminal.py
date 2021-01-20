@@ -8,10 +8,13 @@ Created on Tue Jan 19 14:53:44 2021
 import sys
 import glob
 import serial
+import threading
+import time
 
 class Terminal:
 
     def __init__(self):
+        S = serial.Serial()
         pass
     
     def serial_ports(self):
@@ -41,6 +44,9 @@ class Terminal:
             except (OSError, serial.SerialException):
                 pass
         return result
+    
+    def connect(self):
+        
 
 
 s = Terminal()
