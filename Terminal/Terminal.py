@@ -10,13 +10,18 @@ import glob
 import serial
 import threading
 import time
+from DataLogger import DataLogger
+
+
+
+
 
 class Terminal:
 
-    def __init__(self):
-        S = serial.Serial()
-        pass
-    
+    def __init__(self, baudrate=115200):
+        self.serial_port = serial.Serial()
+        self.serial_port.baudrate = baudrate
+
     def serial_ports(self):
         """ Lists serial port names
     
@@ -46,9 +51,29 @@ class Terminal:
         return result
     
     def connect(self):
-        
+        if (len(self.serial_ports()) > 0):
+            self.serial_port.port = self.serial_ports()[0]
+            try:
+                self.serial_port.open()
+            except Exception as e:
+                print(e)
+            finally :
+                if(self.serial_port.is_open):
+                    print("Connected to" + self.serial_port.portstr)
+                else:
+                    exit()
+    
+    def disconnect(self):
+        self.serial_port.close()
+                    
+                
 
 
 s = Terminal()
 print(s.serial_ports())
+s.connect()
+while True:
+    line = s.serial_port.readline().decode("utf-8")
+    print(line)
 
+s.disconnect()
