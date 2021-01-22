@@ -12,7 +12,7 @@ import threading
 import time
 from DataLogger import DataLogger
 
-
+logger = DataLogger.DataLogger()
 
 
 
@@ -21,6 +21,7 @@ class Terminal:
     def __init__(self, baudrate=115200):
         self.serial_port = serial.Serial()
         self.serial_port.baudrate = baudrate
+        #self.serial_port.timeout = 1
 
     def serial_ports(self):
         """ Lists serial port names
@@ -59,21 +60,34 @@ class Terminal:
                 print(e)
             finally :
                 if(self.serial_port.is_open):
-                    print("Connected to" + self.serial_port.portstr)
+                    logger.info("Connected to: " + self.serial_port.portstr)
                 else:
                     exit()
     
     def disconnect(self):
         self.serial_port.close()
-                    
-                
+        logger.info("Disconnecting from: " + self.serial_port.portstr)
+    
+    def readline(self):
+       return self.serial_port.readline().decode("utf-8")
+    
+    def writeline(self, str):
+        logger.trace("Writing : " + str)
+        self.serial_port.write(str.encode())
+    
+    def __del__(self):
+        self.disconnect()
 
 
-s = Terminal()
-print(s.serial_ports())
-s.connect()
-while True:
-    line = s.serial_port.readline().decode("utf-8")
-    print(line)
+# s = Terminal()
+# print(s.serial_ports())
+# s.connect()
+# i = 0
+# while True:
+#     i += 1
+#     s.writeline("Hello World! n: {0}\r\n".format(i))
+#     time.sleep(2)
+#     #line = s.readline()
+#     #print(line)
 
-s.disconnect()
+# s.disconnect()

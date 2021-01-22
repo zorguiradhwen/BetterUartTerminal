@@ -24,7 +24,7 @@ class TimeStampType(Enum):
     DELTA_TIME = 1
 
 
-class Datalogger:
+class DataLogger:
         
     def __init__(self, loglevel = LogLevel.TRACE, show_date = True, show_subsecs = True, time_type = TimeStampType.CURRENT_TIME):      
         self.loglevel = loglevel
@@ -67,8 +67,8 @@ class Datalogger:
         if(self.loglevel >= LogLevel.TRACE):
             self.log("TRACE\t" + msg)
 
-#logger = Datalogger(loglevel=LogLevel.TRACE)
-# delta = Datalogger(time_type = TimeStampType.DELTA_TIME)
+#datalogger = DataLogger(loglevel=LogLevel.TRACE)
+# delta = DataLogger(time_type = TimeStampType.DELTA_TIME)
 
 # while True:
     
