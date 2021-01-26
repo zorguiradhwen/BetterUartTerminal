@@ -13,7 +13,7 @@ PLANNING:
         - basic host commands
         - frame encoder/decoder: encode and decode frames to and from MCU
         - logger and data display
-        - scriptinterpretor (send and receive commands automatically with a written scripter)
+        - TransmissionAutomator (send and receive commands automatically with a written scripter)
         
         
     
@@ -24,5 +24,11 @@ PLANNING:
                   - connect and disconnect ports and handle exceptions
                   - send and receive   
                   
+        2. Logger and data display:
+            * basic funcs:
+                - logging functions fort different log levels
+                
+        3.
+
                   
                   

@@ -10,9 +10,9 @@ import glob
 import serial
 import threading
 import time
-from DataLogger import DataLogger
 
-logger = DataLogger.DataLogger()
+from BetterUartTerminal.DataLogger.DataLogger import logger
+
 
 
 
@@ -22,7 +22,7 @@ class Terminal:
         self.serial_port = serial.Serial()
         self.serial_port.baudrate = baudrate
         #self.serial_port.timeout = 1
-
+        self.ports_list = []
     def serial_ports(self):
         """ Lists serial port names
     
@@ -41,19 +41,18 @@ class Terminal:
         else:
             raise EnvironmentError('Unsupported platform')
     
-        result = []
         for port in ports:
             try:
                 s = serial.Serial(port)
                 s.close()
-                result.append(port)
+                self.ports_list.append(port)
             except (OSError, serial.SerialException):
                 pass
-        return result
+        return self.ports_list
     
     def connect(self):
         if (len(self.serial_ports()) > 0):
-            self.serial_port.port = self.serial_ports()[0]
+            self.serial_port.port = self.ports_list[0]
             try:
                 self.serial_port.open()
             except Exception as e:
@@ -63,6 +62,9 @@ class Terminal:
                     logger.info("Connected to: " + self.serial_port.portstr)
                 else:
                     exit()
+        else:
+            logger.warn("No Serial ports found!")
+            sys.exit(0)
     
     def disconnect(self):
         self.serial_port.close()
@@ -76,18 +78,19 @@ class Terminal:
         self.serial_port.write(str.encode())
     
     def __del__(self):
-        self.disconnect()
+        if (self.serial_port.is_open) :
+            self.disconnect()
 
 
-# s = Terminal()
-# print(s.serial_ports())
-# s.connect()
-# i = 0
-# while True:
-#     i += 1
-#     s.writeline("Hello World! n: {0}\r\n".format(i))
-#     time.sleep(2)
-#     #line = s.readline()
-#     #print(line)
+s = Terminal()
+print(s.serial_ports())
+s.connect()
+i = 0
+while True:
+    i += 1
+    s.writeline("Hello World! n: {0}\r\n".format(i))
+    time.sleep(2)
+    #line = s.readline()
+    #print(line)
 
-# s.disconnect()
+s.disconnect()

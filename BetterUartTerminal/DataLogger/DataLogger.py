@@ -52,8 +52,7 @@ class DataLogger:
         print(now, msg)
         
     def fatal(self, msg):
-        self.log("FATAL\t" + msg)
-                
+        self.log("FATAL\t" + msg)              
     def error(self, msg):
         if(self.loglevel >= LogLevel.ERROR):
             self.log("ERROR\t" + msg)
@@ -67,19 +66,20 @@ class DataLogger:
         if(self.loglevel >= LogLevel.TRACE):
             self.log("TRACE\t" + msg)
 
-#datalogger = DataLogger(loglevel=LogLevel.TRACE)
+logger = DataLogger(loglevel=LogLevel.TRACE)
 # delta = DataLogger(time_type = TimeStampType.DELTA_TIME)
 
-# while True:
+if __name__ == "__main__":
+    while True:
+        
+        logger.fatal("this is a fatal")
+        logger.error("this is an error")
+        logger.warn("this is a warning")
+        logger.info("this is an info")
+        logger.trace("this is a trace")
     
-#     current.fatal("this is a fatal")
-#     current.error("this is an error")
-#     current.warn("this is a warning")
-#     current.info("this is an info")
-#     current.trace("this is a trace")
-
-
-#     #delta.fatal("delta time")
-
-#     time.sleep(0.5)
+    
+        #delta.fatal("delta time")
+    
+        time.sleep(0.5)
 
